@@ -22,6 +22,13 @@ import numpy as np
 
 
 def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, custom_text_upper=None, custom_text_middle=None, custom_text_bottom=None):
+	####### mkdir output_path/svg
+	svg_Dir = "%s/svg" % (output_path)
+	if os.path.exists(svg_Dir):
+		pass
+	else:
+		os.system("mkdir %s" % svg_Dir)
+
 	plot_custom_text = False
 	sig_probs = False
 	pcawg = False
@@ -259,8 +266,6 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				else:
 					plt.ylabel("Number of Single Base Substitutions", fontsize=35, fontname="Times New Roman", weight = 'bold')
 
-
-
 				panel1.tick_params(axis='both',which='both',\
 								   bottom=False, labelbottom=False,\
 								   left=True, labelleft=True,\
@@ -271,6 +276,12 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 
 				[i.set_color("black") for i in plt.gca().get_yticklabels()]
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "SBS_96_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+				
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -542,6 +553,12 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				[i.set_color("black") for i in plt.gca().get_yticklabels()]
 
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "SBS_384_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -836,6 +853,12 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				[i.set_color("black") for i in plt.gca().get_yticklabels()]
 
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "SBS_384_extended_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -995,9 +1018,14 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 								   top=False, labeltop=False,\
 								   width=2)
 
-
-
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "SBS_6_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+				
+				
 				plt.close()
 			pp.close()
 
@@ -1160,6 +1188,13 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				plt.legend(handles=[trans, untrans], prop={'size':25})
 
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "SBS_24_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
+
 				plt.close()
 			pp.close()
 
@@ -1796,6 +1831,12 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 					panel2.set_yticklabels(ylabels_96, fontsize=font_label_size, color='black')
 
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "SBS_1536_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -2152,7 +2193,15 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				handles, labels = panel2.get_legend_handles_labels()
 				panel2.legend(handles[:3], labels[:3], loc='best', prop={'size':30})
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "SBS_288_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+				
+				
 				plt.close()
+				
 				sample_count += 1
 
 			pp.close()
@@ -2465,6 +2514,13 @@ def plotSBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				handles, labels = panel2.get_legend_handles_labels()
 				panel2.legend(handles[:4], labels[:4], loc='upper right', prop={'size':15}, bbox_to_anchor= (0.95, 1.15))
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "SBS_288_Normalized_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
+
 				plt.close()
 				sample_count += 1
 
@@ -2478,6 +2534,15 @@ def plotID(matrix_path, output_path, project, plot_type, percentage=False, custo
 	# if 'roman' in matplotlib.font_manager.weight_dict:
 	#   del matplotlib.font_manager.weight_dict['roman']
 	#   matplotlib.font_manager._rebuild()
+
+	####### mkdir output_path/svg
+	svg_Dir = "%s/svg" % (output_path)
+	if os.path.exists(svg_Dir):
+		pass
+	else:
+		os.system("mkdir %s" % svg_Dir)
+
+
 	plot_custom_text = False
 	sig_probs = False
 	pcawg = False
@@ -2819,6 +2884,12 @@ def plotID(matrix_path, output_path, project, plot_type, percentage=False, custo
 				[i.set_color("black") for i in plt.gca().get_yticklabels()]
 
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "ID_83_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -3311,6 +3382,13 @@ def plotID(matrix_path, output_path, project, plot_type, percentage=False, custo
 
 
 				pp.savefig(plot1)
+				####### Also Generate SVG format
+				
+				pre_String = "ID_simple_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+				
+				
 				plt.close()
 			pp.close()
 
@@ -3682,6 +3760,13 @@ def plotID(matrix_path, output_path, project, plot_type, percentage=False, custo
 				[i.set_color("black") for i in plt.gca().get_yticklabels()]
 
 				pp.savefig(plot1)
+				
+				####### Also Generate SVG format
+				pre_String = "ID_TSB_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
+				
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -3699,6 +3784,14 @@ def plotDBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 	# if 'roman' in matplotlib.font_manager.weight_dict:
 	#   del matplotlib.font_manager.weight_dict['roman']
 	#   matplotlib.font_manager._rebuild()
+
+	####### mkdir output_path/svg
+	svg_Dir = "%s/svg" % (output_path)
+	if os.path.exists(svg_Dir):
+		pass
+	else:
+		os.system("mkdir %s" % svg_Dir)
+
 	plot_custom_text = False
 	pcawg = False
 	sig_probs = False
@@ -3970,6 +4063,12 @@ def plotDBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 				[i.set_color("grey") for i in plt.gca().get_xticklabels()]
 
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "DBS_78_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 				sample_count += 1
 			pp.close()
@@ -4193,6 +4292,12 @@ def plotDBS(matrix_path, output_path, project, plot_type, percentage=False, cust
 
 				panel1.set_xlim([0, 36])
 				pp.savefig(plot1)
+
+				####### Also Generate SVG format
+				pre_String = "DBS_186_plots"
+				svg_Path = "%s/%s_%s_%s.svg" % (svg_Dir,pre_String,project,sample)
+				plot1.savefig(svg_Path,dpi=30,format='svg')
+
 				plt.close()
 			pp.close()
 		except:
