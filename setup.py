@@ -1,10 +1,4 @@
 from setuptools import setup
-import os
-import shutil
-
-#remove the dist folder first if exists
-if os.path.exists("dist"):
-    shutil.rmtree("dist")
 
 def readme():
 	with open('README.rst') as f:
@@ -44,8 +38,12 @@ setup(name='sigProfilerPlotting',
 		# fonts/ lives at the repository root (docker/backend.dockerfile copies
 		# it from there), so map it into the package instead of moving it.
 		package_dir={'sigProfilerPlotting.fonts': 'fonts'},
+		python_requires=">=3.9",
+		# no upper caps: verified with numpy 2.1 / pandas 2.2.3 / matplotlib 3.9
 		install_requires =[
-			"matplotlib"],
+			"matplotlib>=3.2",
+			"numpy",
+			"pandas"],
 		package_data={'sigProfilerPlotting.fonts': ['*.ttf']},
 		include_package_data=True,
 		zip_safe=False)
