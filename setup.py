@@ -1,6 +1,4 @@
 from setuptools import setup
-from setuptools.command.install import install
-import warnings
 import os
 import shutil
 
@@ -28,43 +26,12 @@ version = '%(version)s'
 
 write_version_py()
 
-#Set up the machinery to install custom fonts.  Subclass the setup tools install 
-#class in order to run custom commands during installation.  
-class move_ttf(install):
-    def run(self):
-        """
-        Performs the usual install process and then copies the True Type fonts 
-        that come with clearplot into matplotlib's True Type font directory, 
-        and deletes the matplotlib fontList.cache 
-        """
-        #Perform the usual install process
-        install.run(self)
-        #Try to install custom fonts
-        try:
-            import os, shutil
-            import matplotlib
-            import matplotlib.font_manager
-
-            #Find where matplotlib stores its True Type fonts
-            mpl_data_dir = os.path.dirname(matplotlib.matplotlib_fname())
-            mpl_ttf_dir = os.path.join(mpl_data_dir, 'fonts', 'ttf')
-            cp_ttf_dir = os.path.dirname(os.path.realpath(__file__))
-
-            file_names = ["Times New Roman.ttf", "Arial.ttf", "Courier New.ttf", 
-            			  "Courier New Bold.ttf", "Arial Bold.ttf", "Times New Roman Bold.ttf"]
-            for file in file_names:
-            	old_path = os.path.join(cp_ttf_dir, "fonts/" + file)
-            	new_path = os.path.join(mpl_ttf_dir, file)
-            	shutil.copyfile(old_path, new_path)
-            matplotlib.font_manager._rebuild()
-
-        except:
-            warnings.warn("WARNING: An issue occured while installing the fonts.")
-
-        
-
-
-
+# Fonts: the bundled TTFs (repo-level fonts/) are packaged as the
+# sigProfilerPlotting.fonts subpackage and registered with matplotlib at
+# import time (see sigProfilerPlotting._register_bundled_fonts). The old
+# custom install command that copied them into matplotlib's font directory
+# and called the private font_manager._rebuild() (removed in matplotlib
+# 3.6) is gone; it never ran for wheel-based installs anyway.
 
 setup(name='sigProfilerPlotting',
 		version=VERSION,
@@ -73,12 +40,13 @@ setup(name='sigProfilerPlotting',
 		author='Erik Bergstrom',
 		author_email='ebergstr@eng.ucsd.edu',
 		license='UCSD',
-		packages=['sigProfilerPlotting'],
+		packages=['sigProfilerPlotting', 'sigProfilerPlotting.fonts'],
+		# fonts/ lives at the repository root (docker/backend.dockerfile copies
+		# it from there), so map it into the package instead of moving it.
+		package_dir={'sigProfilerPlotting.fonts': 'fonts'},
 		install_requires =[
 			"matplotlib"],
-        package_data={'':['fonts/*.ttf']},
+		package_data={'sigProfilerPlotting.fonts': ['*.ttf']},
 		include_package_data=True,
-	    #Specify the custom install class
-	    cmdclass={'install' : move_ttf},
 		zip_safe=False)
 

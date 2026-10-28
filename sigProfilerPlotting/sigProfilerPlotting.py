@@ -28,6 +28,37 @@ import string
 import warnings
 warnings.filterwarnings("ignore")
 
+
+def _register_bundled_fonts():
+	"""Register the TTF files shipped with the package (Arial, Courier New,
+	Times New Roman) with matplotlib's font manager.
+
+	Replaces the legacy setup.py ``move_ttf`` install hook, which copied the
+	fonts into matplotlib's own font directory and called the private
+	``font_manager._rebuild()`` (removed in matplotlib 3.6). Registering at
+	import time works for wheel installs, editable installs and plain source
+	checkouts, and does not touch the matplotlib installation.
+	"""
+	here = os.path.dirname(os.path.abspath(__file__))
+	candidates = [
+		os.path.join(here, 'fonts'),                   # installed package layout
+		os.path.join(os.path.dirname(here), 'fonts'),  # source checkout / editable install
+	]
+	for font_dir in candidates:
+		if not os.path.isdir(font_dir):
+			continue
+		for name in sorted(os.listdir(font_dir)):
+			if name.lower().endswith('.ttf'):
+				try:
+					matplotlib.font_manager.fontManager.addfont(os.path.join(font_dir, name))
+				except Exception:
+					pass
+		return font_dir
+	return None
+
+
+_register_bundled_fonts()
+
 def plotSV(matrix_path, output_path, project, plot_type="pdf", percentage=False, aggregate=False):
     """Outputs a pdf containing Rearrangement signature plots
 
