@@ -243,7 +243,8 @@ def plotCNV(matrix_path, output_path, project, plot_type="pdf", percentage=False
         lab_LOH.index = [loh for loh in range(len(lab_homdel), len(lab_homdel)+len(lab_LOH))]
         lab_het=l2[l2.str.contains(":het:")]
         lab_het.index = [het for het in range(len(lab_homdel)+len(lab_LOH), len(lab_homdel)+len(lab_LOH)+len(lab_het))]
-        labels_ordered = lab_homdel.append(lab_LOH.append(lab_het))
+        # pandas 2.x removed Series.append; pd.concat preserves the same index order
+        labels_ordered = pd.concat([lab_homdel, lab_LOH, lab_het])
         for i in labels_ordered:
                 tmp_count=i.split(":", 1)
                 counts_ordered.append(float(tmp_count[0]))
